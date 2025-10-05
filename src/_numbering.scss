@@ -1,0 +1,51 @@
+figure {
+  counter-increment: figure;
+}
+
+figure.listing {
+  counter-increment: listing;
+}
+
+table {
+  counter-increment: table;
+}
+
+.figref::before {
+  content: target-counter(attr(href url), figure);
+}
+
+.lstref::before {
+  content: target-counter(attr(href url), listing);
+}
+
+.tblref::before {
+  content: target-counter(attr(href url), table);
+}
+
+html {
+  figure > figcaption::before {
+    content: "Figure " counter(figure) " — ";    
+  }
+
+  .listing > figcaption::before {
+    content: "Listing " counter(listing) " — ";
+  }
+
+  table > caption::before {
+    content: "Table " counter(table) " — ";
+  }
+}
+
+[lang="ru"] {
+  figure > figcaption::before {
+    content: "Рисунок " counter(figure) " — ";    
+  }
+
+  .listing > figcaption::before {
+    content: "Листинг " counter(listing) " — ";
+  }
+
+  table > caption::before {
+    content: "Таблица " counter(table) " — ";
+  }
+}

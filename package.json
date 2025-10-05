@@ -1,0 +1,27 @@
+{
+  "name": "@kotwys/vivliostyle-theme-istu",
+  "description": "Theme for reports",
+  "version": "0.1.0",
+  "author": "kotwys",
+  "scripts": {
+    "build": "sass src/index.scss:dist/index.css"
+  },
+  "devDependencies": {
+    "sass": "^1.92.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kotwys/vivliostyle-theme-istu.git"
+  },
+  "keyword": ["vivliostyle", "vivliostyle-theme"],
+  "license": "CC0-1.0",
+  "vivliostyle": {
+    "theme": {
+      "name": "ISTU",
+      "style": "./dist/index.css",
+      "author": "kotwys",
+      "category": "report",
+      "topics": ["academic"]
+    }
+  }
+}

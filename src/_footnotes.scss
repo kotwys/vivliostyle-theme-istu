@@ -1,0 +1,22 @@
+@page {
+  /* It should be anything other than 'footnote' */
+  counter-reset: fn;
+}
+
+.fn {
+  float: footnote;
+  counter-increment: fn;
+  font-size: .8rem;
+}
+
+::footnote-marker {
+  content: counter(fn) " ";
+  font-size: .6rem;
+  vertical-align: super;
+}
+
+::footnote-call {
+  content: counter(fn);
+  font-size: .6rem;
+  vertical-align: super;
+}

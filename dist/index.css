@@ -1,0 +1,351 @@
+@charset "UTF-8";
+@page {
+  /* It should be anything other than 'footnote' */
+  counter-reset: fn;
+}
+.fn {
+  float: footnote;
+  counter-increment: fn;
+  font-size: 0.8rem;
+}
+
+::footnote-marker {
+  content: counter(fn) " ";
+  font-size: 0.6rem;
+  vertical-align: super;
+}
+
+::footnote-call {
+  content: counter(fn);
+  font-size: 0.6rem;
+  vertical-align: super;
+}
+
+@media screen {
+  body {
+    max-width: 720px;
+    margin-inline: auto;
+  }
+}
+@media print {
+  a {
+    color: unset;
+    text-decoration: none;
+  }
+}
+figure {
+  counter-increment: figure;
+}
+
+figure.listing {
+  counter-increment: listing;
+}
+
+table {
+  counter-increment: table;
+}
+
+.figref::before {
+  content: target-counter(attr(href url), figure);
+}
+
+.lstref::before {
+  content: target-counter(attr(href url), listing);
+}
+
+.tblref::before {
+  content: target-counter(attr(href url), table);
+}
+
+[lang=ru] figure > figcaption::before {
+  content: "Рисунок " counter(figure) " — ";
+}
+[lang=ru] .listing > figcaption::before {
+  content: "Листинг " counter(listing) " — ";
+}
+[lang=ru] table > caption::before {
+  content: "Таблица " counter(table) " — ";
+}
+
+@page {
+  size: A4;
+  padding: 0;
+  margin-left: 3cm;
+  margin-right: 1.5cm;
+  margin-top: 2cm;
+  margin-bottoM: 2cm;
+  @bottom-center {
+    content: counter(page);
+  }
+}
+@page empty {
+  @bottom-center {
+    content: unset;
+  }
+}
+section.level1:not(:has(> h1.unnumbered)) {
+  counter-increment: l1;
+  counter-reset: l2;
+}
+section.level1:not(:has(> h1.unnumbered)) > h1 {
+  display: flex;
+}
+section.level1:not(:has(> h1.unnumbered)) > h1::before {
+  content: counter(l1);
+  margin-inline-end: 1ex;
+}
+
+nav#TOC > ul > li a::before, .h1ref::before {
+  content: target-counter(attr(href url), l1);
+}
+
+section.level2:not(:has(> h2.unnumbered)) {
+  counter-increment: l2;
+}
+section.level2:not(:has(> h2.unnumbered)) > h2 {
+  display: flex;
+}
+section.level2:not(:has(> h2.unnumbered)) > h2::before {
+  content: counter(l1) "." counter(l2);
+  margin-inline-end: 1ex;
+}
+
+nav#TOC > ul > li > ul > li a::before, .h2ref::before {
+  content: target-counter(attr(href url), l1) "." target-counter(attr(href url), l2);
+}
+
+.titlepage {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  break-after: page;
+  page: empty;
+}
+.titlepage .institution, .titlepage .heading, .titlepage .date {
+  text-align: center;
+}
+
+.titlepage .heading h1 {
+  margin: 0;
+}
+
+.requisite {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+}
+
+.requisite_three {
+  grid-template-columns: 1fr max-content max-content;
+}
+
+.requisite-role {
+  grid-column: 1/-1;
+}
+.requisite-role:not(:first-of-type) {
+  margin-top: 1lh;
+}
+
+.fill-in-simple {
+  display: inline-block;
+  vertical-align: baseline;
+  border-bottom: 1px solid currentColor;
+}
+
+.fill-in {
+  position: relative;
+}
+.fill-in .fill-in__title {
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  font-size: 0.7em;
+  font-style: italic;
+  border-top: 1px solid currentColor;
+  text-align: center;
+  line-height: 1;
+}
+.fill-in .fill-in__title_a {
+  top: calc(12pt * var(--font-line-skip));
+}
+
+:root {
+  line-height: calc(1.5 * var(--font-line-skip, 1));
+  counter-reset: figure;
+  /* Default font */
+  font-family: "PT Astra Serif", "Times New Roman", sans-serif;
+  font-size: 14pt;
+  --font-line-skip: 1.15;
+}
+
+p + section, section + section {
+  margin-block-start: 1lh;
+  margin-break: discard;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  margin: 0;
+  margin-inline-start: 1.25cm;
+}
+
+.major section.level1 {
+  break-after: page;
+}
+.major h1.unnumbered, .major nav#TOC > h2 {
+  text-align: center;
+  text-transform: uppercase;
+  margin: 0;
+  margin-block-end: 1lh;
+}
+
+nav#TOC {
+  break-after: page;
+  page: empty;
+}
+
+nav#TOC ul {
+  padding-inline-start: 2ex;
+  list-style: none;
+}
+
+nav#TOC > ul {
+  padding-inline-start: 0;
+}
+
+nav#TOC a::before {
+  margin-inline-end: 0.7ex;
+}
+nav#TOC a::after {
+  content: leader(" . ") target-counter(attr(href url), page);
+}
+
+p, li, .csl-entry {
+  margin: 0;
+  text-align: justify;
+  hyphens: auto;
+}
+
+p, .csl-entry {
+  text-indent: 1.25cm;
+}
+
+li > p:first-child {
+  text-indent: 0;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  padding-inline-start: 1.25cm;
+}
+
+section ul {
+  list-style: none;
+}
+section ul > li {
+  position: relative;
+}
+section ul > li::before {
+  content: "—";
+  position: absolute;
+  left: -1.2em;
+  top: 0;
+}
+
+figure, table {
+  margin-break: discard;
+  margin: 0;
+  margin-block: 1rem;
+}
+
+figure > :first-child {
+  display: block;
+  margin-inline: auto;
+}
+
+figcaption {
+  text-align: center;
+}
+
+.listing figcaption {
+  margin-inline: unset;
+  text-align: left;
+}
+
+figure > * + figcaption {
+  margin-block-start: 10pt;
+}
+
+table > caption {
+  margin-block-end: 10pt;
+}
+
+caption {
+  text-align: left;
+}
+
+caption, figcaption {
+  font-size: 1rem;
+  line-height: var(--font-line-skip);
+}
+
+pre {
+  line-height: var(--font-line-skip, 1);
+}
+
+div.sourceCode {
+  position: relative;
+  border: 1px solid black;
+  margin: 0 !important;
+  padding: 4pt;
+  overflow: visible;
+}
+
+pre.numberSource {
+  padding: initial;
+  margin: initial;
+}
+pre.numberSource > code > span {
+  position: unset;
+  text-indent: unset;
+  padding-left: unset;
+  min-width: 1em;
+  min-height: 1lh;
+  vertical-align: middle;
+}
+pre.numberSource > code > span > a:first-child {
+  position: absolute;
+  left: -4em;
+  overflow: visible;
+}
+
+.table {
+  border-collapse: collapse;
+  line-height: 1;
+}
+
+.table th {
+  background-color: #eee;
+}
+
+.table td, .table th {
+  padding: 0.5em;
+  border: 1px solid black;
+}
+
+.float {
+  float: block-start;
+  float-reference: page;
+}
+
+.sc {
+  font-variant-caps: all-small-caps;
+}
+
+hr.clear-page {
+  border: none;
+  break-after: page;
+}
+
+/*# sourceMappingURL=index.css.map */

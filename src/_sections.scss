@@ -1,0 +1,57 @@
+$min-level: 1;
+$max-level: 2;
+
+@function content-for-level($l) {
+  $content: null;
+  $k: $min-level;
+  @while $k <= $l {
+    $content: $content counter(l#{$k});
+    @if $k != $l {
+      $content: $content ".";
+    }
+    $k: $k+1;
+  }
+  @return $content;
+}
+
+@function target-content-for-level($l) {
+  $content: null;
+  $k: $min-level;
+  @while $k <= $l {
+    $content: $content target-counter(attr(href url), l#{$k});
+    @if $k != $l {
+      $content: $content ".";
+    }
+    $k: $k+1;
+  }
+  @return $content;
+}
+
+$toc-sel: "nav#TOC";
+@for $l from 1 through $max-level {
+  $toc-sel: $toc-sel "> ul > li";
+
+  section.level#{$l}:not(:has(> h#{$l}.unnumbered)) {
+    $to-reset: null;
+    $m: $l+1;
+    @while $m <= $max-level {
+      $to-reset: $to-reset l#{$m};
+      $m: $m+1;
+    };
+
+    counter-increment: l#{$l};
+    counter-reset: $to-reset;
+
+    & > h#{$l} {
+      display: flex;
+      &::before {
+        content: content-for-level($l);
+        margin-inline-end: 1ex;
+      }
+    }
+  }
+
+  #{$toc-sel} a::before, .h#{$l}ref::before {
+    content: target-content-for-level($l);
+  }
+}

@@ -1,0 +1,13 @@
+@media screen {
+  body {
+    max-width: 720px;
+    margin-inline: auto;
+  }
+}
+
+@media print {
+  a {
+    color: unset;
+    text-decoration: none;
+  }
+}
